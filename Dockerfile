@@ -33,3 +33,15 @@ RUN pip install scgpt "flash-attn<1.0.5" "orbax<0.1.8"
 
 # Set the default command for the running stage
 CMD ["python", "<your-script-here>.py"]
+
+# Development stage with JupyterLab for interactive development
+FROM development as develop_jupyter
+# Install JupyterLab
+RUN pip install jupyterlab
+
+# Expose port 8888 for JupyterLab
+EXPOSE 8888
+
+# Set the default command to start JupyterLab
+# Note: The --ip=0.0.0.0 argument allows JupyterLab to be accessible from outside the Docker container
+CMD ["jupyter", "lab", "--ip=0.0.0.0", "--allow-root", "--LabApp.token=''", "--LabApp.password=''", "--no-browser", "--port=8888"]

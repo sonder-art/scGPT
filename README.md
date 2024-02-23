@@ -1,3 +1,6 @@
+# Docker
+`docker build --build-arg WANDB_API_KEY=your_wandb_api_token_here -t scgpt:latest .`
+
 # scGPT
 
 This is the official codebase for **scGPT: Towards Building a Foundation Model for Single-Cell Multi-omics Using Generative AI**.

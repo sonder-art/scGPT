@@ -1,5 +1,54 @@
 # Docker
-`docker build --build-arg WANDB_API_KEY=your_wandb_api_token_here -t scgpt:latest .`
+## Docker Setup and Usage
+
+This section outlines how to use Docker to build and run this project. We provide three Docker targets to cater to different needs: for running the application (`running`), for general development (`development`), and for development with a JupyterLab environment (`develop_jupyter`).
+
+### Building Docker Images
+
+- **For Running the Application (`running`):**
+  This target creates an image optimized for running the application. It includes only the necessary dependencies and the project's runtime environment.
+  ```bash
+  docker build --target running -t scgpt:latest .
+  ```
+
+- **For Development (`development`):**
+  The `development` target includes additional tools and dependencies for development purposes, such as testing libraries and development servers. This image is suitable for developers looking to write and test their code.
+  ```bash
+  docker build --target development -t scgpt:dev .
+  ```
+
+- **For JupyterLab Development Environment (`develop_jupyter`):**
+  This target builds an image with JupyterLab installed, providing an interactive development environment accessible via a web browser. It's ideal for data exploration, visualization, and running Jupyter notebooks.
+  ```bash
+  docker build --target develop_jupyter -t scgpt:develop_jupyter .
+  ```
+
+### Running the Docker Containers
+
+- **Running the Application with Volume Mounting:**
+  The following command runs the application and mounts the current directory to `/app` in the container. This setup allows for real-time synchronization between your local files and the files inside the container.
+  ```bash
+  docker run -v $(pwd):/app scgpt:latest 
+  ```
+
+- **Using an .env File for Environment Variables:**
+  Securely pass environment variables, such as API keys, to your container using an `.env` file. Create this file in your project root with the required variables and use the `--env-file` option to load it into the container.
+  ```plaintext
+  WANDB_API_KEY=your_wandb_api_key_here
+  ```
+  ```bash
+  docker run --env-file ./.env -v $(pwd):/app scgpt:latest 
+  ```
+
+- **JupyterLab Development Environment:**
+  To access JupyterLab, run the container with port forwarding. The command below maps your machine's port 8888 to the container's port 8888. With volume mounting, you can edit your project files from JupyterLab directly.
+  ```bash
+  docker run -p 8888:8888 -v $(pwd):/app scgpt:develop_jupyter
+  ```
+  Access JupyterLab by navigating to `http://localhost:8888` in your browser.
+
+This documentation provides instructions for leveraging Docker to streamline the setup and development process for this project, offering flexibility across different development environments.
+
 
 # scGPT
 
